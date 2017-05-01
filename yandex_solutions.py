@@ -57,7 +57,10 @@ class MoviesLib(object):
         print(self.movies_set)
 
     def get_randmovie(self):
-        return random.sample(self.movies_set, 1)
+        for i, movie in zip(range(1, len(self.movies_set)+1), self.movies_set):
+            rnd = random.random()
+            if rnd < 1 / i:
+                return movie
 
 
 def class_hand():
@@ -65,7 +68,7 @@ def class_hand():
     obj.append('La La Land')
     obj.remove_movie('Sherlock')
     obj.append('Ghost In The Shell')
-    print(obj.get_randmovie())
+    print('rand=%s' % obj.get_randmovie())
     obj.print_lib()
 
 
@@ -107,6 +110,4 @@ class Tree(object):
             readable_dict[i[0]] = i[1]
         return readable_dict
 
-obj = Tree(1, Tree(1, Tree(1, 1, Tree(3, 2, 6)), Tree(2, 2, 6)), Tree(2, Tree(2, 1), Tree(3, 2, 6)))
-obj.searching_nodes(obj)
-print(obj.most_common())
+class_hand()
