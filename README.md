@@ -8,3 +8,6 @@ exaple run 'python3 parse.py {name}.pcap'
 
 'yandex_solutions.py'
 solutions of yandex task
+
+'kernel_parser.py' kernel for parsing Avito with avoid blocking.
+'analizes.ipynb' - analize dataset from 'kernel_parser.py'
