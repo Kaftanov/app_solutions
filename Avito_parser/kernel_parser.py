@@ -1,12 +1,16 @@
-import requests
-import pandas as pd
 import logging
-
-from bs4 import BeautifulSoup
 from random import choice, uniform
 from re import compile
 from time import sleep
 from sys import exit
+
+try:
+    import requests
+    import pandas as pd
+    from bs4 import BeautifulSoup
+except ImportError as import_error:
+    print(str(import_error))
+    print('Use \"pip install \'module\'')
 
 
 class AvitoParser(object):
@@ -44,7 +48,7 @@ class AvitoParser(object):
         frmt = '%(filename)s[LINE:%(lineno)d]# %(levelname)-8s [%(asctime)s]  %(message)s'
         logging.basicConfig(format=frmt, level=logging.DEBUG,
                             filename='AvitoParserLog.log')
-        # Base url
+
         try:
             self.base_url = kwargs['base_url']
         except KeyError as key_error:
@@ -171,7 +175,6 @@ class AvitoParser(object):
         pages = soup.find('div', class_='pagination-pages')
         pages = pages.find_all('a', class_='pagination-page')
         pattern = compile('\?p=(\w+)\"')
-        print(pages)
         # integer number palace on last position in list pages
         return int(pattern.search(str(pages[-1])).group(1))
 
@@ -222,14 +225,14 @@ class AvitoParser(object):
                     else:
                         continue
 
-                self.df = self.df.append(temporary_df, ignore_index=True)
-                self.df.to_csv('log_dataset.csv')
+            self.df = self.df.append(temporary_df, ignore_index=True)
+            self.df.to_csv('log_dataset.csv')
         except Exception as error:
             self.logging.critical('in \"create_data\"' + str(error))
             print('in \"create_data\"' + str(error))
 
-    def turning_pages(self, log_level=None):
+    def turning_pages(self):
         url = self.base_url + '?p=%i'
-        for i in range(1, self.get_last_page(self.base_url) + 1):
-            self.get_titles(url % i)
+        for i in range(1, self.get_last_page() + 1):
+            self.create_data(url % i)
         self.df.to_csv('dataset.csv')
