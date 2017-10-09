@@ -12,6 +12,7 @@ except ImportError as import_error:
     print(str(import_error))
     print('Use \"pip install \'module\'')
 
+# test_commit2
 
 class AvitoParser(object):
     """
