@@ -14,6 +14,7 @@ except ImportError as import_error:
 
 # test_commit1
 
+
 class AvitoParser(object):
     """
         get_url
